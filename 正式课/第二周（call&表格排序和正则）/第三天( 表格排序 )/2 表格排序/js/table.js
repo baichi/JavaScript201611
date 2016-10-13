@@ -93,11 +93,29 @@ changeColor();
 
 // 排序: 就是tbody里的行(tr) 按照 年龄/ 身高/ 体重 .. 上下移动
 
-function sort(){
+function sort(/*n*/){ //当前按照哪一列去排序取决于这个n参数,只有点击的那一刻才能确定是按照哪一列去排序。=> 那么就是n的值只有在事件发生的那一刻才能确定。事件发生的那一刻只有this最可靠了。
+    for(var i=0; i<ths.length; i++){
+        if(ths[i] !== this){ //循环所有的表头只要不是当前点击的这一个，那么我就全部恢复成-1.避免间隔点击排序的时候按照降序排列
+            ths[i].sortFlag = -1;
+        }
+    }
     var tBodyTrsAry = utils.listToArray(tBodyTrs); //把类数组转化成数组
+     //？？这个this不能是window => 点击的那个表头才行 => 换this => call
+
+     // 用这个that变量保存this，因为sort方法中也使用this，但是this是window
+    console.log(this.sortFlag); //这个this已经在绑定事件函数中通过call方法从原来的window修改成了现在的th（点击的那个表头）
+    var that = this; // that这个变量保存就是this=>其实也就是那些点击的表头
+    that.sortFlag *= -1;
     tBodyTrsAry.sort(function (a,b){
         // a,b分别都是代表tbody下面的行。是按照行下面列的innerHTML排序
-        return a.cells[2].innerHTML - b.cells[2].innerHTML;
+        //需要判断每次排序的时候相邻上下两行其中的内容是不是数字，如果不是那么使用localeCompare方法来做字符串排序 => 只要有一个不是有效数字那么就要使用
+        var _a = a.cells[/*n*/that.index].innerHTML;
+        var _b = b.cells[/*n*/that.index].innerHTML;
+        if(isNaN(_a) || isNaN(_b)){ // 或者条件
+            return (_a.localeCompare(_b))*that.sortFlag;
+        }
+        return  (_a - _b)*that.sortFlag;
+        // return cells[n] => 按照那一列排序取决于n
     });
     //把排好序的数组(表格下的所有行)还需要回填到表格中，这样才是排序
     var frg = document.createDocumentFragment();
@@ -107,16 +125,20 @@ function sort(){
     tBody.appendChild(frg);
     frg = null;
 }
-
 // 给每一个表头th绑定事件
 ;(function bindEvent(){
     //循环绑定事件给表头
     for(var i=0; i<ths.length; i++){
         // 不是给所有的表头列都绑定事件，只给带cursor这个类的绑定。在绑定之前要做一个判断，判断是否存在cursor这个类
         if(ths[i].className == 'cursor'){
+             //每次点击切换正序还是倒叙使用，每次都在原有的基础上乘以这个自定义属性 => 在sort排序函数中return的值上
+            ths[i].index = i; //给每一个表头都添加一个自定义属性，用来保存当前表头自己的索引。=> 当点击发生的时候，排序要按照这个索引来排
+            ths[i].sortFlag = -1; //这个是用来在排序的时刻每次乘等于这个自定义属性,正序或者倒叙使用的
             ths[i].onclick = function (){
                 //点击的表头的时候,就应该排序了
-                sort();
+                //console.log(this); //点击那个表头,但是this上也没有索引。在事件发生之前就给每一个表头添加一个自定义属性。
+                console.log(this); //这的this就是那些表头，如果把这个this能传到sort函数中就可以了。 => 能把sort函数中的this修改成这个this就可以了 => call方法可以修改this
+                sort.call(this/*,this.index*/); //点击事件发生的时候我才知道sort方法中按照哪一列去排序,this都已经能传到sort函数中。那么this.index必然也能在sort函数中获取到
                 changeColor(); // 每次排序之后隔行变色就乱了，所以需要重新执行一次
             }
         }
