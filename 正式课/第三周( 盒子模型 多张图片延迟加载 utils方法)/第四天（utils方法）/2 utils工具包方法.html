@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .a{
+
+        }
+    </style>
+</head>
+<body>
+    <p id="p" class="c6 c5 c6"></p>
+</body>
+</html>
+<script src="utils1.0.js"></script>
+<script>
+    var p = document.getElementById('p');
+    removeClass(p,'c5 c6');
+    function removeClass(curEle, className) {
+        var ary = className.replace(/(^ +| +$)/g, "").split(/ +/g);
+        for (var i = 0, len = ary.length; i < len; i++) {
+            var curName = ary[i];
+            if (this.hasClass(curEle, curName)) {
+                var reg = new RegExp("(^| +)" + curName + "( +|$)", "g");
+                curEle.className = curEle.className.replace(reg, " ");
+            }
+        }
+    }
+    function hasClass(ele,strClass){ //判断ele是否包含className这个类
+        //ele.className
+        //hasClass(div1,"     c2         ")
+        strClass = strClass.replace(/(^ +| +$)/g,""); //参数有可能传出来问题
+        //用strClass这个参数重新组成一个新的正则，用来判断ele.className是否符合这个正则
+        var reg = new RegExp("(^| +)"+strClass+"( +|$)","g"); //使用变量需要使用实例的创建方式
+        console.log(reg);
+        //var reg = new RegExp("\\b"+strClass+"\\b");
+        return reg.test(ele.className); //只要验证通过就表示这个strClass在ele.className中出现过
+    }
+</script>
