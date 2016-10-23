@@ -1,5 +1,6 @@
 /*utils工具包第一版*/
 var utils = {
+
     listToArray : function (likeAry){ //类数组转化成数组
         // try catch
         try{
@@ -227,15 +228,44 @@ var utils = {
         // [c5,c6]
         for(var i=0; i<strClassAry.length; i++){
             var curClass = strClassAry[i]; // c5,c6
-            if(this.hasClass(ele,curClass)){ // 包含这个类才移除
+            // while循环可以处理这个问题，只要存在c5或c6就执行。一直到把c5和c6全部替换结束
+            while(this.hasClass(ele,curClass)){ // 包含这个类才移除
                 // 移除类其实就是把className上符合规则的哪一段（空格+/开头c5空格+或者结尾）替换成空格（如果替换成空字符串就当前这个类的前后两项连接上了）
-                var reg = new RegExp('(^| +)'+curClass+'( +|$)','g'); // g是全文，保证把所有的符合规则的类都移除
-
-                ele.className = ele.className.replace(reg," ");
+                var reg = new RegExp('(^| +?)'+curClass+'( +?|$)','g'); // g是全文，保证把所有的符合规则的类都移除
+                ele.className = ele.className.replace(reg,'  '); //两个空格
                 // 把符合规则的className中的一段字符串全部替换成空格，replace方法是返回替换后的新字符串。所以重新赋值给ele.className
             }
         }
+    },
+    getElesByClass : function (strClass,context){ //通过类名获取元素
+        context = context || document;
+        if(context.getElementsByClassName){
+            return this.listToArray(context.getElementsByClassName(strClass));
+        }
+        // for ie 6-8
+        var strClassAry = str.replace(/^ +| +$/g,'').split(/ +/);
+        var tags = context.getElementsByTagName('*');
+        var ary = [];
+        for(var i = 0; i< tags.length; i++){
+            var curTag = tags[i];
+            var curTagIsOk = true;
+            for(var j=0; j<strClassAry.length; j++){
+                var curClass = strClassAry[j];
+                var reg = new RegExp('(^| +)'+curClass+('( +|$)'));
+                if(!reg.test(curTag.className)){
+                    curTagIsOk = false;
+                    break;
+                }
+            }
+            if(curTagIsOk){
+                ary.push(curTag);
+            }
+        }
+        return ary;
     }
+
+
+
 
 
 
