@@ -63,6 +63,7 @@ function fadeIn(img){ //这是一个淡入效果
     // 把定时器的返回值(我是页面中第几个定时器)赋值给图片img的自定义属性上,为了清定时器的时候可以快速查找到。=> 以后定时器的返回值就保存到运动的元素的自定义属性上
     img.timer = window.setInterval(function (){
         var curOpacity = utils.getCss(img,'opacity'); //获取当前的透明度
+
         if(curOpacity >= 1){ //透明度运动到达终点
             window.clearInterval(img.timer);  //清定时器
             utils.setCss(img,'opacity',1); //主动设置终点
@@ -70,6 +71,7 @@ function fadeIn(img){ //这是一个淡入效果
         }
         curOpacity += 0.01;
         utils.setCss(img,'opacity',curOpacity); //把已经计算好的透明度设置回去
+        console.log(curOpacity); // 0.010.01
     },10);
 }
 
@@ -80,7 +82,10 @@ function allImgsDelayLoad(){
         //判断curImg是否已经进入到窗口内
         var _a = utils.win('clientHeight') + utils.win('scrollTop');
         var _b = curImg.parentNode.offsetHeight + utils.offset(curImg.parentNode).top;
+        console.log(_a);
+        console.log(_b);
         if(_a > _b){ // 符合这个条件的图片才做图片延迟加载
+
             imgDelayLoad(curImg); //把当前的图片作为参数传到单张图片延迟加载的函数中去
         }
     }

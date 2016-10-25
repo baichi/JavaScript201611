@@ -63,6 +63,7 @@ var utils = {
                 val = ele.currentStyle[attr];
             }
         }
+        //
         var reg = /-?\d+(\.\d+)?(px|pt|em|rem|deg)?/; // -300.5px block
         if(reg.test(val)){
             val = parseFloat(val);
