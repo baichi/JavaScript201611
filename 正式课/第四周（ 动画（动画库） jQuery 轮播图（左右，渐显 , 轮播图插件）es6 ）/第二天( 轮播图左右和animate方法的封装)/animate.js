@@ -2,7 +2,6 @@
     // callback ： 回调函数，当运动到达终点之后要执行的函数
     function animate(ele,target,duration,animateEffect,callback){
         // 如果把所有的形参全部封装到一个对象里，然后使用的时候直接通过对象的属性来获取。那么这样就不会有参数的顺序问题。那么在调用函数传实参的时候所有的属性名字必须写对。为了防止写错。那么在代码需要用或者 || 写一个默认值
-                                        ['Elastic','easeIn']
         var interval = 10;
         var time = 0;
         var begin = {};
