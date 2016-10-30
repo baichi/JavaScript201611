@@ -9,7 +9,7 @@ var data = null;
 ;(function getData(){
     // 1,2,3,4
     var xhr = new XMLHttpRequest();
-    xhr.open('get','js/data.txt',false);
+    xhr.open('get','js/data1.txt',false);
     xhr.onreadystatechange = function (){
         if(xhr.readyState == 4 && xhr.status == 200){
             data = utils.jsonParse(xhr.responseText);

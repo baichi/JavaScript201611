@@ -1,5 +1,6 @@
 //get ele
-var banner = utils.getElesByClass('banner')[0];
+var banner = utils.getElesByClass('banner')[1];
+
 var bannerInner = utils.getElesByClass('bannerInner',banner)[0];
 var focusList = utils.children(banner,'ul')[0];
 var left = utils.getElesByClass('left',banner)[0];
@@ -48,7 +49,6 @@ var lis = focusList.getElementsByTagName('li');
         })(i);
     }
 })();
-
 // 自动轮播
 var timer = window.setInterval(autoMove,2000);
 var step = 0;
@@ -85,7 +85,6 @@ banner.onmouseover = function (){
     window.clearInterval(timer);
     left.style.display = right.style.display = 'block';
 }
-
 // 鼠标离开的时候启动定时器然后隐藏左右按钮
 banner.onmouseout = function (){
     timer = window.setInterval(autoMove,2000);
@@ -102,7 +101,6 @@ banner.onmouseout = function (){
         }
     }
 })();
-
 // 点击左右也要切换图片
 left.onclick = function (){
     step--;

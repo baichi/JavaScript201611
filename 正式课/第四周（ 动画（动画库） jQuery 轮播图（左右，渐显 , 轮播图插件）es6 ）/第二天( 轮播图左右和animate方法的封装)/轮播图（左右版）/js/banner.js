@@ -20,7 +20,7 @@ var right = utils.getElesByClass('right',banner)[0];
     var xhr = new XMLHttpRequest();
     // 在data.txt拼接一个随机数是为了不读取本地304缓存,保证每次请求的url都不同
     xhr.open('get','data.txt?_='+Math.random(),false); // timeStamp
-    // data.txt?_=0.123123123123124&age=30
+    // data1.txt?_=0.123123123123124&age=30
     xhr.onreadystatechange = function (){
         if(xhr.readyState == 4 && xhr.status == 200){
             window.data = utils.jsonParse(xhr.responseText);
