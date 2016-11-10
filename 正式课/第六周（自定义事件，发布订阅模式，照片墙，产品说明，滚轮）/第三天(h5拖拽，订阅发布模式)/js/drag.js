@@ -45,6 +45,8 @@ function up(e) {
     }
     fly.call(this, e);
     drop.call(this,e);
+    //bg.call(this,e);
+    //border.call(this,e);
 }
 
 function fly(e) {
