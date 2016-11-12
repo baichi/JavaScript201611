@@ -22,7 +22,7 @@ function down(e){
         on(document,'mouseup',this.UP);
     }
     //
-    selfRun.call(this,'selfdragstart',e); // 无论哪个方法订阅过selfdragstart这个事件。那么这一会真的就是已经开始准备拖拽了。那么订阅过这个事件的这些函数就可以执行了
+    //selfRun.call(this,'selfdragstart',e); // 无论哪个方法订阅过selfdragstart这个事件。那么这一会真的就是已经开始准备拖拽了。那么订阅过这个事件的这些函数就可以执行了
 
 }
 
@@ -32,7 +32,7 @@ function move(e){
     this.style.left = l + 'px';
     this.style.top = t + 'px';
     e.preventDefault(); //拖拽图片有默认行为
-    selfRun.call(this,'selfdraging',e);
+    //selfRun.call(this,'selfdraging',e);
 }
 
 function up(e){
@@ -44,7 +44,7 @@ function up(e){
         off(document,'mousemove',this.MOVE);
         off(document,'mouseup',this.UP);
     }
-    selfRun.call(this,'selfdragend',e);
+    //selfRun.call(this,'selfdragend',e);
 }
 
 
