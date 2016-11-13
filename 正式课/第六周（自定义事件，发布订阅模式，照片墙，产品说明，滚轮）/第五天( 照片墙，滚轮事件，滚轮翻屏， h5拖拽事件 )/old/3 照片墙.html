@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,div,ul,li,img{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+            width: 480px;
+            height: 640px;
+            padding: 5px;
+            margin: 5px auto;
+            background: #ccc;
+        }
+        ul li{
+            width: 150px;
+            height: 150px;
+            margin: 5px;
+            float: left;
+            background: lightcyan;
+        }
+        ul li img{
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+            border: none;
+            -webkit-user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><img src="images/1.png" alt=""></li>
+        <li><img src="images/2.png" alt=""></li>
+        <li><img src="images/3.png" alt=""></li>
+        <li><img src="images/4.png" alt=""></li>
+        <li><img src="images/5.png" alt=""></li>
+        <li><img src="images/6.png" alt=""></li>
+        <li><img src="images/7.png" alt=""></li>
+        <li><img src="images/8.png" alt=""></li>
+        <li><img src="images/9.png" alt=""></li>
+        <li><img src="images/10.png" alt=""></li>
+        <li><img src="images/11.png" alt=""></li>
+        <li><img src="images/12.png" alt=""></li>
+    </ul>
+</body>
+</html>
+<script src="event-4.1.js"></script>
+<script src="utils2.0.js"></script>
+<script src="animate.js"></script>
+<script src="DragClass.js"></script>
+<script>
+    // 想拖拽必须使用定位
+    var lis = document.getElementsByTagName('li');
+    //for(var i=0; i<lis.length; i++){
+    for(var i=lis.length-1; i >=0; i--){
+        var li = lis[i];
+        var l = li.offsetLeft/*-5*/;
+        var t = li.offsetTop/*-5*/;
+        li.originLeft = l;
+        li.originTop = t;
+        li.style.position = 'absolute';
+        li.style.left = l + 'px';
+        li.style.top = t + 'px';
+        li.style.margin = 0;
+        new Drag(li)
+                .on('selfdragstart',increaseZIndex)
+                .on('selfdragstart',changeBg)
+                .on('selfdragend',resetBg)
+                .on('selfdraging',processHitedLi)
+                .on('selfdragend',changePosi);
+
+
+
+    }
+
+    function changePosi(){
+        var a = this.hitedEle;
+        if(a && a.length){
+            for(var i=0; i<a.length; i++){
+                var li = a[i];
+                li.distance = Math.sqrt(Math.pow(this.ele.offsetLeft - li.offsetLeft,2) + Math.pow(this.ele.offsetTop - li.offsetTop,2));
+            }
+            a.sort(function (a,b){
+                return a.distance - b.distance;
+            });
+            var minLi = a[0];
+
+            //minLi.style.left = this.ele.originLeft + 'px';
+            //minLi.style.top = this.ele.originTop + 'px';
+            //this.ele.style.left = minLi.originLeft + 'px';
+            //this.ele.style.top = minLi.originTop + 'px';
+            animate(this.ele,{left : minLi.originLeft, top : minLi.originTop},200,2);
+            animate(minLi,{left : this.ele.originLeft, top : this.ele.originTop},200,2);
+
+            var tempObj = { l : this.ele.originLeft, t : this.ele.originTop};
+            this.ele.originLeft = minLi.originLeft;
+            this.ele.originTop = minLi.originTop;
+            minLi.originLeft = tempObj.l;
+            minLi.originTop = tempObj.t;
+            for(var i=0; i<a.length; i++){
+                a[i].style.backgroundColor = '';
+            }
+            this.hitedEle = null;
+        }else{
+            animate(this.ele,{left : this.ele.originLeft, top : this.ele.originTop},200,2);
+        }
+    }
+
+    function processHitedLi(){
+        this.hitedEle = [];
+        for(var i=0; i<lis.length; i++){
+            var li = lis[i];
+            if(li === this.ele) continue; //自己和自己就不用检了
+            li.style.backgroundColor = '';
+            if(isHited(this.ele,li)){
+                li.style.backgroundColor = 'orange';
+                this.hitedEle.push(li);
+            }
+        }
+    }
+
+    function isHited(moveBox,staticBox){
+
+        return moveBox.offsetLeft + moveBox.offsetWidth < staticBox.offsetLeft||
+        moveBox.offsetTop + moveBox.offsetHeight < staticBox.offsetTop ||
+        moveBox.offsetLeft > staticBox.offsetWidth + staticBox.offsetLeft ||
+        moveBox.offsetTop > staticBox.offsetHeight + staticBox.offsetTop ? false : true;
+
+    }
+
+
+
+    function resetBg(){
+        this.ele.style.backgroundColor = '';
+    }
+    function changeBg(){
+        this.ele.style.backgroundColor = 'darkblue';
+    }
+    function increaseZIndex(){
+        for(var i=0; i<lis.length; i++){
+            lis[i].style.zIndex = 0;
+        }
+        this.ele.style.zIndex = 1;
+
+    }
+</script>
