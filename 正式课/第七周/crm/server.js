@@ -141,5 +141,5 @@ var server1 = http.createServer(function (request, response) {
     }
 });
 server1.listen(6688, function () {
-    console.log('server is success,listing on 1234 port!');
+    console.log('server is success,listing on 6688 port!');
 });
