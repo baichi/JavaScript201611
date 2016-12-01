@@ -124,9 +124,17 @@ html, body {
 }
 
 .menu {
+  overflow: hidden;
+  position: relative;
   width: 198px;
   background: @back-color;
   border: 1px solid @border-color;
+
+  ul {
+    position: absolute;
+    width: 100%;
+  }
+
   a {
     display: block;
     position: relative;
@@ -169,6 +177,12 @@ html, body {
       border-left-color: @back-blue-light;
     }
   }
+}
+
+/*自定义ISCROLL滚动条的样式*/
+.iScrollIndicator {
+  opacity: 0.2;
+  filter: alpha(opacity=20);
 }
 
 
