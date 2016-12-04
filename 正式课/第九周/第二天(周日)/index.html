@@ -63,38 +63,49 @@
 </section>
 
 <!--MATCH-->
-<section class="match">
-    <div class="top clear">
-        <div class="left">
-            <img src="" alt=""/>
-            <span>112</span>
+<section class="match" id="match">
+    <!--制作模板:在模板中我们假设后期传递给我的数据叫做matchInfo-->
+    <script type="text/template" id="matchTemplate">
+        <div class="top clear">
+            <div class="left">
+                <img src="<%=matchInfo.leftBadge%>" alt=""/>
+                <span><%=matchInfo.leftGoal%></span>
+            </div>
+            <div class="center"><%=matchInfo.startTime.formatTime('{1}月{2}日 {3}:{4}')%></div>
+            <div class="right">
+                <span><%=matchInfo.rightGoal%></span>
+                <img src="<%=matchInfo.rightBadge%>" alt=""/>
+            </div>
         </div>
-        <div class="center">11月11日 09:00</div>
-        <div class="right">
-            <span>112</span>
-            <img src="" alt=""/>
+        <div class="middle">
+            <%matchInfo.leftSupport=parseFloat(matchInfo.leftSupport);%>
+            <%matchInfo.rightSupport=parseFloat(matchInfo.rightSupport);%>
+            <%var per=matchInfo.leftSupport/(matchInfo.leftSupport+matchInfo.rightSupport);%>
+            <%per=per*100+'%';%>
+            <div class="progress" style="width:<%=per%>"></div>
         </div>
-    </div>
-    <div class="middle">
-        <div class="progress"></div>
-    </div>
-    <div class="bottom clear">
-        <div class="left">2190</div>
-        <div class="center">NBA常规赛</div>
-        <div class="right">858</div>
-    </div>
+        <div class="bottom clear">
+            <div class="left support" data-type="1"><%=matchInfo.leftSupport%></div>
+            <div class="center"><%=matchInfo.matchDesc%></div>
+            <div class="right support" data-type="2"><%=matchInfo.rightSupport%></div>
+        </div>
+    </script>
 </section>
 
 <!--PLAYER-->
-<section class="player">
+<section class="player" id="player">
     <ul class="clear">
-        <li>
-            <div>
-                <img src="" alt=""/>
-                <em>02:11</em>
-            </div>
-            <p>哈哈哈哈哈哈啊哈哈啊哈哈哈哈哈啊哈哈哈</p>
-        </li>
+        <script type="text/template" id="playerTemplate">
+            <%$.each(playerList,function(index,item){%>
+            <li>
+                <div>
+                    <img src="<%=item.pic%>" alt=""/>
+                    <em><%=item.duration.formatTime('{1}:{2}')%></em>
+                </div>
+                <p><%=item.title%></p>
+            </li>
+            <%});%>
+        </script>
     </ul>
 </section>
 
