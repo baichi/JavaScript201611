@@ -1,0 +1,91 @@
+@import (reference) "public";
+
+html {
+  font-size: 100px; /*640PX 1REM=100PX*/
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  background: #F4F4F4;
+}
+
+/*--HEADER--*/
+.header {
+  height: .88rem;
+  background: @color-blue;
+
+  /*PUBLIC*/
+  .logo, .type, .login, .menu {
+    float: left;
+    line-height: .88rem;
+    color: @color-white;
+    font-size: .32rem;
+    font-weight: normal;
+  }
+  .login, .menu {
+    float: right;
+  }
+
+  /*LOGO*/
+  .logo {
+    box-sizing: border-box;
+    padding-left: .7rem;
+    width: 2.16rem;
+    border-right: .02rem solid darken(@color-blue, 15%);
+    background: url("../img/icon-logo.png") no-repeat .1rem center;
+    background-size: .48rem .48rem;
+  }
+
+  /*TYPE*/
+  .type {
+    padding: 0 .2rem;
+    border-left: .02rem solid lighten(@color-blue, 15%);
+  }
+
+  /*LOGIN*/
+  .login {
+    padding: 0 .2rem;
+  }
+
+  /*MENU*/
+  .menu {
+    width: .88rem;
+    height: .88rem;
+    background: url("../img/btn-nav-fold.png") no-repeat center center;
+    background-size: 50% 50%;
+  }
+}
+
+/*--NAV--*/
+.nav {
+  .transition(@duration: .3s);
+  padding: 0; /*.1rem 0*/
+  height: 0; /*2.22rem*/
+  overflow: hidden;
+  
+  li {
+    float: left;
+    width: 16%;
+    &:nth-child(6n+1) {
+      margin-left: 2%;
+    }
+
+    a {
+      display: block;
+      height: .74rem;
+      line-height: .74rem;
+      text-align: center;
+      color: @color-555;
+      font-size: .32rem;
+    }
+  }
+}
+
+
+
+
+
+
+
+
